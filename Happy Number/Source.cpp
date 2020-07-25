@@ -5,21 +5,25 @@ using namespace std;
 class Solution {
 public:
     bool isHappy(int n) {
-        set<int>dup = { n };
-        pair<set<int>::iterator, bool>ret;
-        while (n != 1) {
-            int sum = 0;
-            while (n > 0) {
-                sum += (n % 10) * (n % 10);
-                n /= 10;
-            }
-            n = sum;
-            ret = dup.insert(sum);
-            if (ret.second == false) {
-                return false;
-            }
+        int slow = n, fast = getSum(getSum(n));
+        while (slow != fast) {
+            slow = getSum(slow);
+            fast = getSum(getSum(fast));
         }
-        return true;
+        if (fast == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    int getSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += (n % 10) * (n % 10);
+            n /= 10;
+        }
+        return sum;
     }
 };
 int main() {
